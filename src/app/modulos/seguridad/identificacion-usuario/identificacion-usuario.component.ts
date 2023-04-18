@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder, Validators } from '@angular/forms';
+import { UsuarioModel } from 'src/app/modelos/usuario.model';
+import { SeguridadService } from 'src/app/servicios/seguridad.service';
+import { MD5 } from 'crypto-js';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-identificacion-usuario',
@@ -12,6 +16,8 @@ export class IdentificacionUsuarioComponent {
 
   constructor(
     private fb: FormBuilder,
+    private servicioSeguridad: SeguridadService,
+    private router: Router
   ) {
 
   }
@@ -31,7 +37,18 @@ export class IdentificacionUsuarioComponent {
     if (this.fGroup.invalid) {
       alert("Datos incompletos");
     } else {
-      alert("Identificando...");
+      let usuario = this.obtenerFormGroup['usuario'].value;
+      let clave = this.obtenerFormGroup['clave'].value;
+      let claveCifrada = MD5(clave).toString();
+      this.servicioSeguridad.IdentificarUsuario(usuario, claveCifrada).subscribe({
+        next: (datos: UsuarioModel) => {
+          console.log(datos);
+          this.router.navigate(["/seguridad/2fa"]);
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
     }
   }
 
