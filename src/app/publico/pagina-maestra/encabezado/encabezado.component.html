@@ -1,10 +1,25 @@
 <nav class="blue">
-    <div class="nav-wrapper">
-      <a routerLink="/inicio" class="brand-logo">Logo</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a routerLink="/seguridad/identificar-usuario">Iniciar Sesión</a></li>
-        <li><a routerLink="/seguridad/cambiar-clave">Cambiar Clave</a></li>
-        <li><a routerLink="/seguridad/cerrar-sesion">Cerrar Sesión</a></li>
-      </ul>
-    </div>
-  </nav>
+  <div class="nav-wrapper">
+    <a routerLink="/inicio" class="brand-logo">Logo</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li>
+        <a *ngIf="!sesionActiva" routerLink="/seguridad/identificar-usuario"
+          >Iniciar Sesión</a
+        >
+      </li>
+      <li>
+        <a *ngIf="sesionActiva" routerLink="/seguridad/cambiar-clave"
+          >Cambiar Clave</a
+        >
+      </li>
+      <li>
+        <a *ngIf="sesionActiva" routerLink="/seguridad/cerrar-sesion"
+          >Cerrar Sesión</a
+        >
+      </li>
+    </ul>
+  </div>
+</nav>
+<div  *ngIf="sesionActiva">
+  <app-menu-lateral> </app-menu-lateral>
+</div>
