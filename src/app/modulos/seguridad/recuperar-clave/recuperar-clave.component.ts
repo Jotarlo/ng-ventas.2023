@@ -15,7 +15,7 @@ export class RecuperarClaveComponent {
     private fb: FormBuilder,
     private servicioSeguridad: SeguridadService
   ) {
-
+    
   }
 
   ngOnInit() {
