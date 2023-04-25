@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { UsuarioModel } from '../modelos/usuario.model';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguracionRutasBackend } from '../config/configuracion.rutas.backend';
 import { UsuarioValidadoModel } from '../modelos/usuario.validado.model';
+import { PermisoModel } from '../modelos/permiso.model';
+import { ConfiguracionMenuLateral } from '../config/configuracion.menu.lateral';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SeguridadService {
-  urlBase:string = ConfiguracionRutasBackend.urlSeguridad;
-  constructor(private http: HttpClient) { 
+  urlBase: string = ConfiguracionRutasBackend.urlSeguridad;
+  constructor(private http: HttpClient) {
     this.validacionDeSesion();
   }
 
@@ -21,7 +23,7 @@ export class SeguridadService {
    * @param clave 
    * @returns datos del usuario validado
    */
-  IdentificarUsuario(usuario:string, clave: string): Observable<UsuarioModel>{
+  IdentificarUsuario(usuario: string, clave: string): Observable<UsuarioModel> {
     return this.http.post<UsuarioModel>(`${this.urlBase}identificar-usuario`, {
       correo: usuario,
       clave: clave
@@ -32,12 +34,12 @@ export class SeguridadService {
    * Almacena los datos del usuario
    * @param datos datos del usuario
    */
-  AlmacenarDatosUsuarioIdentificado(datos:UsuarioModel):boolean{
+  AlmacenarDatosUsuarioIdentificado(datos: UsuarioModel): boolean {
     let cadena = JSON.stringify(datos);
     let datosLS = localStorage.getItem("datos-usuario");
-    if(datosLS){
+    if (datosLS) {
       return false;
-    }else{
+    } else {
       localStorage.setItem("datos-usuario", cadena);
       return true;
     }
@@ -46,13 +48,13 @@ export class SeguridadService {
   /**
    * Cerrando sesión
    */
-  RemoverDatosUsuarioValidado(){
+  RemoverDatosUsuarioValidado() {
     let datosUsuario = localStorage.getItem("datos-usuario");
     let datosSesion = localStorage.getItem("datos-sesion");
-    if(datosUsuario){
+    if (datosUsuario) {
       localStorage.removeItem("datos-usuario");
     }
-    if(datosSesion){
+    if (datosSesion) {
       localStorage.removeItem("datos-sesion");
     }
     this.ActualizarComportamientoUsuario(new UsuarioValidadoModel());
@@ -62,35 +64,35 @@ export class SeguridadService {
    * Busca los datos en localstorage de un usuario
    * @returns 
    */
-  ObtenerDatosUsuarioLS():UsuarioModel | null{
+  ObtenerDatosUsuarioLS(): UsuarioModel | null {
     let datosLS = localStorage.getItem("datos-usuario");
-    if(datosLS){
+    if (datosLS) {
       let datos = JSON.parse(datosLS);
       return datos;
-    }else{
+    } else {
       return null;
     }
   }
 
- /**
-  * Validar 2fa
-  * @param idUsuario 
-  * @param codigo 
-  * @returns 
-  */
-  ValidarCodigo2FA(idUsuario:string, codigo: string): Observable<UsuarioValidadoModel>{
+  /**
+   * Validar 2fa
+   * @param idUsuario 
+   * @param codigo 
+   * @returns 
+   */
+  ValidarCodigo2FA(idUsuario: string, codigo: string): Observable<UsuarioValidadoModel> {
     return this.http.post<UsuarioValidadoModel>(`${this.urlBase}verificar-2fa`, {
       usuarioId: idUsuario,
       codigo2fa: codigo
     });
   }
 
-  RegistrarUsuarioPublico(datos: any): Observable<UsuarioModel>{
+  RegistrarUsuarioPublico(datos: any): Observable<UsuarioModel> {
     return this.http.post<UsuarioModel>(`${this.urlBase}usuario-publico`, datos);
   }
 
-  ValidarHashUsuarioPublico(hash: string): Observable<boolean>{
-    return this.http.post<boolean>(`${this.urlBase}validar-hash-usuario`,{
+  ValidarHashUsuarioPublico(hash: string): Observable<boolean> {
+    return this.http.post<boolean>(`${this.urlBase}validar-hash-usuario`, {
       codigoHash: hash
     });
   }
@@ -100,11 +102,11 @@ export class SeguridadService {
    * @param datos datos del usuario validado
    * @returns respuesta
    */
-  AlmacenarDatosUsuarioValidado(datos:UsuarioValidadoModel): boolean{
+  AlmacenarDatosUsuarioValidado(datos: UsuarioValidadoModel): boolean {
     let datosLS = localStorage.getItem("datos-sesion");
-    if(datosLS != null){
+    if (datosLS != null) {
       return false;
-    }else{
+    } else {
       let datosString = JSON.stringify(datos);
       localStorage.setItem("datos-sesion", datosString);
       this.ActualizarComportamientoUsuario(datos);
@@ -112,7 +114,7 @@ export class SeguridadService {
     }
   }
 
-  RecuperarClavePorUsuario(usuario: string): Observable<UsuarioModel>{
+  RecuperarClavePorUsuario(usuario: string): Observable<UsuarioModel> {
     return this.http.post<UsuarioModel>(`${this.urlBase}recuperar-clave`, {
       correo: usuario,
     });
@@ -122,20 +124,36 @@ export class SeguridadService {
 
   datosUsuarioValidado = new BehaviorSubject<UsuarioValidadoModel>(new UsuarioValidadoModel());
 
-  ObtenerDatosSesion():Observable<UsuarioValidadoModel>{
+  ObtenerDatosSesion(): Observable<UsuarioValidadoModel> {
     return this.datosUsuarioValidado.asObservable();
   }
 
-  validacionDeSesion(){
+  validacionDeSesion() {
     let ls = localStorage.getItem("datos-sesion");
-    if(ls){
+    if (ls) {
       let objUsuario = JSON.parse(ls);
       this.ActualizarComportamientoUsuario(objUsuario);
     }
   }
 
-  ActualizarComportamientoUsuario(datos: UsuarioValidadoModel){
+  ActualizarComportamientoUsuario(datos: UsuarioValidadoModel) {
     return this.datosUsuarioValidado.next(datos);
+  }
+
+
+  ConstruirMenuLateral(permisos: PermisoModel[]): string {
+    let menu = "<ul>";
+    // procesamiento de los permisos
+    permisos.forEach((item) => {
+      console.log(item);
+      let datosMenu = ConfiguracionMenuLateral.listaMenus.filter(x => x.id == item._id);
+      if (datosMenu.length > 0) {
+        menu += `<li><a routerLink='${datosMenu[0].ruta}'>${datosMenu[0].texto}</a></li>`;
+      }
+    })
+    menu += "</ul>";
+    localStorage.setItem("menu-lateral", menu);
+    return menu;
   }
 
 }
