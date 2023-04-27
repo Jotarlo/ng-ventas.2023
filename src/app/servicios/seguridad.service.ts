@@ -6,6 +6,7 @@ import { ConfiguracionRutasBackend } from '../config/configuracion.rutas.backend
 import { UsuarioValidadoModel } from '../modelos/usuario.validado.model';
 import { PermisoModel } from '../modelos/permiso.model';
 import { ConfiguracionMenuLateral } from '../config/configuracion.menu.lateral';
+import { ItemMenuModel } from '../modelos/ietm.menu.model';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,7 @@ export class SeguridadService {
     if (datosSesion) {
       localStorage.removeItem("datos-sesion");
     }
+    localStorage.removeItem("menu-lateral");
     this.ActualizarComportamientoUsuario(new UsuarioValidadoModel());
   }
 
@@ -141,18 +143,42 @@ export class SeguridadService {
   }
 
 
-  ConstruirMenuLateral(permisos: PermisoModel[]): string {
-    let menu = "<ul>";
-    // procesamiento de los permisos
-    permisos.forEach((item) => {
-      console.log(item);
-      let datosMenu = ConfiguracionMenuLateral.listaMenus.filter(x => x.id == item._id);
-      if (datosMenu.length > 0) {
-        menu += `<li><a routerLink='${datosMenu[0].ruta}'>${datosMenu[0].texto}</a></li>`;
+  ConstruirMenuLateral(permisos: PermisoModel[]) {
+    let menu: ItemMenuModel[] = [];
+
+    permisos.forEach((permiso) => {
+      let datosRuta = ConfiguracionMenuLateral.listaMenus.filter(x => x.id == permiso.menuId);
+      if (datosRuta.length > 0) {
+        let item = new ItemMenuModel();
+        item.idMenu = permiso.menuId;
+        item.ruta = datosRuta[0].ruta;
+        item.icono = datosRuta[0].icono;
+        item.texto = datosRuta[0].texto;
+        menu.push(item);
       }
-    })
-    menu += "</ul>";
-    localStorage.setItem("menu-lateral", menu);
+    });
+    this.AlmacenarItemsMenuLateral(menu);
+  }
+
+  /**
+   * 
+   * @param itemsMenu items del menú a guardar en ls
+   */
+  AlmacenarItemsMenuLateral(itemsMenu: ItemMenuModel[]) {
+    let menuStr = JSON.stringify(itemsMenu);
+    localStorage.setItem("menu-lateral", menuStr);
+  }
+
+  /**
+   * 
+   * @returns lista con items del menú
+   */
+  ObtenerItemsMenuLateral(): ItemMenuModel[] {
+    let menu: ItemMenuModel[] = [];
+    let menuStr = localStorage.getItem("menu-lateral");
+    if (menuStr) {
+      menu = JSON.parse(menuStr);
+    }
     return menu;
   }
 

@@ -53,6 +53,7 @@ const routes: Routes = [
     path:"usuario-eliminar",
     component:EliminarUsuarioComponent
   }
+  
 ];
 
 @NgModule({

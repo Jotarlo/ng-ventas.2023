@@ -3,17 +3,20 @@ export namespace ConfiguracionMenuLateral {
         {
             id: "63d04fcd013402040c040968",
             ruta: "/seguridad/usuario-listar",
-            texto: "Usuario"
+            icono:"<i class='material-icons'>cloud</i>",
+            texto:"Usuarios"
         },
         {
             id: "63d04fee013402040c040969",
             ruta: "/seguridad/rol-listar",
-            texto: "Rol"
+            icono:"<i class='material-icons'>cloud</i>",
+            texto:"Roles"
         },
         {
             id: "63d05003013402040c04096a",
             ruta: "/parametros/producto-listar",
-            texto: "Producto"
+            icono:"<i class='material-icons'>cloud</i>",
+            texto:"Productos"
         }
     ];
 }
