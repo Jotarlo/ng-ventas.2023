@@ -1,1 +1,18 @@
-<h2>Bienvenido al sistema</h2>
+
+<div class="row">
+    <div *ngFor="let r of listaRegistros" class="col s3">
+      <div class="card">
+        <div class="card-image">
+          <img src="{{r.foto}}">
+          <span class="card-title">{{r.nombre}}</span>
+        </div>
+        <div class="card-content">
+          <p>El precio del producto es: {{r.precioVenta | currency}}. La cantidad disponible es: {{r.cantidadDisponible}}</p>
+        </div>
+        <div class="card-action">
+          <a routerLink="/detalles-producto/{{r.id}}">Ver más</a>
+        </div>
+      </div>
+    </div>
+  </div>
+            

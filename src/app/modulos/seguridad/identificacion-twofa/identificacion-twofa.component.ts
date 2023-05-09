@@ -27,7 +27,7 @@ export class IdentificacionTwofaComponent {
     if (datos != null) {
       this.usuarioId = datos._id!;
       this.ConstruirFormulario();
-    }else{
+    } else {
       this.router.navigate(['/seguridad/identificar-usuario']);
     }
   }
@@ -47,11 +47,15 @@ export class IdentificacionTwofaComponent {
     } else {
       let codigo2fa = this.ObtenerFormGroup["codigo"].value;
       this.servicioSeguridad.ValidarCodigo2FA(this.usuarioId, codigo2fa).subscribe({
-        next: (datos:UsuarioValidadoModel) =>{
+        next: (datos: UsuarioValidadoModel) => {
           console.log(datos);
-          this.servicioSeguridad.ConstruirMenuLateral(datos.menu);
-          this.servicioSeguridad.AlmacenarDatosUsuarioValidado(datos);
-          this.router.navigate([""]);
+          if (datos.token != null && datos.token != undefined && datos.token != "") {
+            this.servicioSeguridad.ConstruirMenuLateral(datos.menu);
+            this.servicioSeguridad.AlmacenarDatosUsuarioValidado(datos);
+            this.router.navigate([""]);
+          } else {
+            alert("El código no es válido");
+          }
         },
         error: (err) => {
           console.log(err);
