@@ -1,1 +1,30 @@
-<p>listar-producto works!</p>
+<br />
+<a routerLink="/parametros/producto-agregar" class="btn">Agregar Registro</a>
+<br />
+
+<table>
+    <thead>
+      <tr>
+          <th>Nombre</th>
+          <th>Precio de Venta</th>
+          <th>Cantidad Disponible</th>
+          <th>Imagen</th>
+          <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of listaRegistros">
+        <td>{{r.nombre}}</td>
+        <td>{{r.precioVenta}}</td>
+        <td>{{r.cantidadDisponible}}</td>
+        <td><img src="{{r.foto}}" class="imagenLitadoRegistros" /></td>
+        <td>
+            <a routerLink="/parametros/producto-editar/{{r.id}}" class="btn orange">Editar Registro</a>&nbsp;
+            <a routerLink="/parametros/producto-eliminar/{{r.id}}" class="btn red">Eliminar Registro</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+        
+
+
