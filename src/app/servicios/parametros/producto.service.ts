@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProductoModel } from '../modelos/producto.model';
-import { ConfiguracionRutasBackend } from '../config/configuracion.rutas.backend';
-import { ConfiguracionPaginacion } from '../config/configuracion.paginacion';
+import { ConfiguracionPaginacion } from 'src/app/config/configuracion.paginacion';
+import { ConfiguracionRutasBackend } from 'src/app/config/configuracion.rutas.backend';
+import { ProductoModel } from 'src/app/modelos/producto.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ParametrosService {
+export class ProductoService {
   urlBase: string = ConfiguracionRutasBackend.urlNegocio;
   constructor(private http: HttpClient) { }
 

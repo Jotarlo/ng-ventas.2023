@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ProductoModel } from 'src/app/modelos/producto.model';
-import { ParametrosService } from 'src/app/servicios/parametros.service';
+import { ProductoService } from 'src/app/servicios/parametros/producto.service';
 
 @Component({
   selector: 'app-listar-producto',
@@ -11,13 +11,13 @@ export class ListarProductoComponent {
   listaRegistros:ProductoModel[]=[];
   
   constructor(
-    private servicioParametros: ParametrosService
+    private servicioProductos: ProductoService
   ){
 
   }
 
   ngOnInit(){
-    this.servicioParametros.listarRegistros().subscribe({
+    this.servicioProductos.listarRegistros().subscribe({
       next: (datos) => {
         this.listaRegistros = datos;
       },
