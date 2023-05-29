@@ -1,6 +1,6 @@
 import { ClienteModel } from "./cliente.model";
 
 export class PaginadorClienteModel{
-    totalRegistros?: number;
-    registros?: ClienteModel[];
+    totalRegistros: number = 0;
+    registros: ClienteModel[] = [];
 }

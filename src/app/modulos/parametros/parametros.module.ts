@@ -10,6 +10,7 @@ import { ListarProductoComponent } from './producto/listar-producto/listar-produ
 import { CrearProductoComponent } from './producto/crear-producto/crear-producto.component';
 import { EditarProductoComponent } from './producto/editar-producto/editar-producto.component';
 import { EliminarProductoComponent } from './producto/eliminar-producto/eliminar-producto.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { EliminarProductoComponent } from './producto/eliminar-producto/eliminar
   ],
   imports: [
     CommonModule,
-    ParametrosRoutingModule
+    ParametrosRoutingModule,
+    NgxPaginationModule
   ]
 })
 export class ParametrosModule { }
