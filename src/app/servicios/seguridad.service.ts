@@ -130,7 +130,7 @@ export class SeguridadService {
     return this.datosUsuarioValidado.asObservable();
   }
 
-  validacionDeSesion():UsuarioValidadoModel | null {
+  validacionDeSesion(): UsuarioValidadoModel | null {
     let ls = localStorage.getItem("datos-sesion");
     if (ls) {
       let objUsuario = JSON.parse(ls);
@@ -182,6 +182,16 @@ export class SeguridadService {
       menu = JSON.parse(menuStr);
     }
     return menu;
+  }
+
+  ObtenerTokenLocalStorage():string {
+    let ls = localStorage.getItem("datos-sesion");
+    if (ls) {
+      let usuario: UsuarioValidadoModel = JSON.parse(ls);
+      return usuario.token!;
+    } else {
+      return "";
+    }
   }
 
 }
