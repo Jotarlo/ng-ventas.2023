@@ -5,6 +5,7 @@ import { ConfiguracionPaginacion } from 'src/app/config/configuracion.paginacion
 import { ConfiguracionRutasBackend } from 'src/app/config/configuracion.rutas.backend';
 import { PaginadorClienteModel } from 'src/app/modelos/paginador.cliente.model';
 import { SeguridadService } from '../seguridad.service';
+import { PaginadorProductoModel } from 'src/app/modelos/paginador.producto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class ClienteService {
     this.token = this.servicioSeguridad.ObtenerTokenLocalStorage();
   }
 
-  listarRegistros(pag: number): Observable<PaginadorClienteModel> {
+  listarRegistros(pag: number): Observable<PaginadorProductoModel> {
     let limit = ConfiguracionPaginacion.registrosPorPagina;
     let skip = (pag - 1) * limit;
     let url = `${this.urlBase}cliente?filter={"limit":${limit}, "skip":${skip}}`;

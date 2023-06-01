@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ConfiguracionPaginacion } from 'src/app/config/configuracion.paginacion';
 import { ProductoModel } from 'src/app/modelos/producto.model';
 import { ProductoService } from 'src/app/servicios/parametros/producto.service';
 
@@ -9,6 +10,9 @@ import { ProductoService } from 'src/app/servicios/parametros/producto.service';
 })
 export class ListarProductoComponent {
   listaRegistros:ProductoModel[]=[];
+  pag = 1;
+  total = 0;
+  registrosPorPagina = ConfiguracionPaginacion.registrosPorPagina;
   
   constructor(
     private servicioProductos: ProductoService
@@ -17,14 +21,18 @@ export class ListarProductoComponent {
   }
 
   ngOnInit(){
-    this.servicioProductos.listarRegistros().subscribe({
+    this.ListarRegistros();
+  }
+
+  ListarRegistros(){
+    this.servicioProductos.listarRegistrosPaginados(this.pag).subscribe({
       next: (datos) => {
-        this.listaRegistros = datos;
+        this.listaRegistros = datos.registros;
+        this.total = datos.totalRegistros;
       },
       error: (err) => {
         alert("Error leyendo la información.")
       }
     });
   }
-
 }
