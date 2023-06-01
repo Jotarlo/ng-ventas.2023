@@ -11,6 +11,7 @@ import { CrearProductoComponent } from './producto/crear-producto/crear-producto
 import { EditarProductoComponent } from './producto/editar-producto/editar-producto.component';
 import { EliminarProductoComponent } from './producto/eliminar-producto/eliminar-producto.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -27,7 +28,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
   imports: [
     CommonModule,
     ParametrosRoutingModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ParametrosModule { }

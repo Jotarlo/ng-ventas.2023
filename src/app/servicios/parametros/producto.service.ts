@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConfiguracionPaginacion } from 'src/app/config/configuracion.paginacion';
 import { ConfiguracionRutasBackend } from 'src/app/config/configuracion.rutas.backend';
+import { ArchivoModel } from 'src/app/modelos/archivo.model';
 import { PaginadorProductoModel } from 'src/app/modelos/paginador.producto.model';
 import { ProductoModel } from 'src/app/modelos/producto.model';
 
@@ -24,7 +25,15 @@ export class ProductoService {
   listarRegistrosPaginados(pag: number): Observable<PaginadorProductoModel> {
     let limit = ConfiguracionPaginacion.registrosPorPagina;
     let skip = (pag - 1) * limit;
-    return this.http.get<PaginadorProductoModel>(`${this.urlBase}producto-paginado?filter={"limit":${limit}, "skip":${skip}}`);
+    return this.http.get<PaginadorProductoModel>(`${this.urlBase}producto-paginado?filter={"limit":${limit}, "skip":${skip}, "order":"id DESC"}`);
+  }
+
+  AgregarRegistro(registro: ProductoModel):Observable<ProductoModel>{
+    return this.http.post(`${this.urlBase}producto`, registro);
+  }
+  
+  CargarArchivo(formData: FormData): Observable<ArchivoModel> {
+    return this.http.post<ArchivoModel>(`${this.urlBase}cargar-archivo-producto`, formData);
   }
 
 }

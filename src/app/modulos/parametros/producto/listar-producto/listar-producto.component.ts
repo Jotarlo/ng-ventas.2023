@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ConfiguracionPaginacion } from 'src/app/config/configuracion.paginacion';
+import { ConfiguracionRutasBackend } from 'src/app/config/configuracion.rutas.backend';
 import { ProductoModel } from 'src/app/modelos/producto.model';
 import { ProductoService } from 'src/app/servicios/parametros/producto.service';
 
@@ -13,6 +14,7 @@ export class ListarProductoComponent {
   pag = 1;
   total = 0;
   registrosPorPagina = ConfiguracionPaginacion.registrosPorPagina;
+  BASE_URL: String = ConfiguracionRutasBackend.urlNegocio;
   
   constructor(
     private servicioProductos: ProductoService

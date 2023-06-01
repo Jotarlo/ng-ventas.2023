@@ -17,7 +17,9 @@
         <td>{{r.nombre}}</td>
         <td>{{r.precioVenta}}</td>
         <td>{{r.cantidadDisponible}}</td>
-        <td><img src="{{r.foto}}" class="imagenLitadoRegistros" /></td>
+        <td>
+          <img src="{{BASE_URL}}ObtenerArchivo/1/{{r.foto}}" class="imagenLitadoRegistros" />
+        </td>
         <td>
             <a routerLink="/parametros/producto-editar/{{r.id}}" class="btn orange">Editar Registro</a>&nbsp;
             <a routerLink="/parametros/producto-eliminar/{{r.id}}" class="btn red">Eliminar Registro</a>
