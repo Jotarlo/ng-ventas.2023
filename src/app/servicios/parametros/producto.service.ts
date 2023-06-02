@@ -31,9 +31,17 @@ export class ProductoService {
   AgregarRegistro(registro: ProductoModel):Observable<ProductoModel>{
     return this.http.post(`${this.urlBase}producto`, registro);
   }
+
+  EditarRegistro(registro: ProductoModel):Observable<ProductoModel>{
+    return this.http.put(`${this.urlBase}producto/${registro.id}`, registro);
+  }
   
   CargarArchivo(formData: FormData): Observable<ArchivoModel> {
     return this.http.post<ArchivoModel>(`${this.urlBase}cargar-archivo-producto`, formData);
+  }
+
+  BuscarRegistro(id: number): Observable<ProductoModel>{
+    return this.http.get<ProductoModel>(`${this.urlBase}producto/${id}`);
   }
 
 }

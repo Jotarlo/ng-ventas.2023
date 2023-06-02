@@ -1,1 +1,64 @@
-<p>editar-producto works!</p>
+<fieldset class="center container">
+    <legend>Edición de Productos</legend>
+    <div class="row">
+        <form class="col s12" [formGroup]="cargaArchivoFG">
+            <div class="row">
+                <div class="showImage center-align">
+                    <img *ngIf="!archivoCargado" src="/assets/img/default.png" class="imagenProducto" />
+                    <img *ngIf="archivoCargado" src="{{BASE_URL}}ObtenerArchivo/1/{{nombreArchivoCargado}}" class="imagenProducto" />
+                </div>
+            </div>
+            <div class="file-field input-field row">
+                <div class="btn col s3">
+                    <span>Seleccionar Archivo</span>
+                    <input (change)="CuandoSeleccionaArchivo($event)" name="image" type="file">
+                </div>
+                <div class="file-path-wrapper col s9">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <input type="button" class="btn" value="Subir Archivo" (click)="CargarArchivo()" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+      <form [formGroup]="fGroup">
+        <div class="row">
+          <div class="input-field col s4">
+            <input type="hidden" formControlName="id" />
+            <input formControlName="nombre" class="validate" id="nombre" type="text">
+            <label for="nombre" data-error="wrong" class="active" data-success="right">Nombre</label>
+            <div class="show-errors" *ngIf="obtenerFgDatos['nombre'].errors 
+            && (obtenerFgDatos['nombre'].dirty || obtenerFgDatos['nombre'].touched)">
+            <strong>Este campo es obligatorio</strong>
+            </div>
+          </div>
+          <div class="input-field col s4">
+            <input formControlName="precioVenta" id="precioVenta" type="number">
+            <label for="precioVenta" class="active" >Precio de Venta</label>
+            <div class="show-errors" *ngIf="obtenerFgDatos['precioVenta'].errors 
+            && (obtenerFgDatos['precioVenta'].dirty || obtenerFgDatos['precioVenta'].touched)">
+            <strong>Este campo es obligatorio</strong>
+            </div>
+          </div>
+          <div class="input-field col s4">
+            <input formControlName="cantidadDisponible" id="cantidadDisponible" type="number">
+            <label for="cantidadDisponible" class="active" >Cantidad Disponible</label>
+            <div class="show-errors" *ngIf="obtenerFgDatos['cantidadDisponible'].errors 
+            && (obtenerFgDatos['cantidadDisponible'].dirty || obtenerFgDatos['cantidadDisponible'].touched)">
+            <strong>Este campo es obligatorio</strong>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <a routerLink="/parametros/producto-listar" class="btn red">Cancelar</a>&nbsp;
+            <button (click)="EditarRegistro()" class="btn waves-effect waves-light">Editar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+</fieldset>
