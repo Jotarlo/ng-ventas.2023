@@ -1,1 +1,36 @@
-<p>eliminar-producto works!</p>
+<fieldset class="center container">
+  <legend>Eliminación de Productos</legend>
+  <div class="row">
+    <div class="row">
+      <div class="col s12">
+        <strong>¿Confirma la eliminación de estos datos?</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="showImage center-align">
+        <img
+          src="{{ BASE_URL }}ObtenerArchivo/1/{{ foto }}"
+          class="imagenProducto"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s4">Nombre: {{ nombre }}</div>
+      <div class="col s4">Cantidad Disponible: {{ cantidadDisponible }}</div>
+      <div class="col s4">Precio de Venta: {{ precioVenta }}</div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <a routerLink="/parametros/producto-listar" class="btn red">Cancelar</a
+        >&nbsp;
+        <button
+          (click)="EliminarRegistro()"
+          class="btn waves-effect waves-light"
+        >
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</fieldset>
